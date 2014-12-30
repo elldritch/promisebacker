@@ -6,8 +6,8 @@ Wraps an asynchronous function that either takes a callback or returns a promise
 
 ## Example
 ```js
-var promisebacker = require('promisebacker')
-  , Promise = require ('promise'); // Any Promises/A+ compliant library will do.
+var Promise = require('promise') // Any Promises/A+ compliant library will do.
+  , promisebacker = require('promisebacker');
 
 var takes_callback = function(arg1, arg2, callback) {
   // Does something...
