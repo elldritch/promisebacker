@@ -1,7 +1,6 @@
 {
   "name": "promisebacker",
   "version": "0.1.0",
-  "private": true,
   "description": "A callback-to-promise-and-back adapter.",
   "keywords": ["promise", "callback", "adapter", "async", "asynchronous", "promiseback", "promisebacker"],
   "homepage": "https://github.com/ilikebits/promisebacker",
