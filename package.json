@@ -27,12 +27,15 @@
     "bluebird": "*"
   },
   "devDependencies": {
+    "coffee-script": "*",
+
     "mocha": "*",
     "chai": "*",
 
     "grunt": "*",
-    "grunt-contrib-uglify": "*",
+    "grunt-cli": "*",
     "grunt-contrib-coffee": "*",
+    "grunt-contrib-uglify": "*",
     "grunt-contrib-clean": "*"
   }
 }

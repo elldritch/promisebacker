@@ -132,3 +132,7 @@ Promise.promisifyAll(..., {
 ###### Option: `promisifier`
 Define a custom promisifier, so you could promisifyAll e.g. the chrome APIs used in Chrome extensions. See the `bluebird` documentation for [promisifyAll](https://github.com/petkaantonov/bluebird/blob/master/API.md#promisepromisifyallobject-target--object-options---object) for details.
 -->
+
+## License
+
+&copy; 2014 Lehao Zhang. Released under the terms of the MIT license.
