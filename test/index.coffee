@@ -1,10 +1,11 @@
 Promise = require 'bluebird'
+Promise.longStackTraces()
 promisebacker = require '../src/promisebacker.coffee'
 
 expect = require 'chai'
   .expect
 
-delay_callback = (f) ->
+delay_as_callback = (f) ->
   (args..., callback) ->
     setTimeout ->
       try
@@ -13,7 +14,7 @@ delay_callback = (f) ->
         callback err
     , 1
 
-delay_promise = (f) ->
+delay_as_promise = (f) ->
   (args...) ->
     new Promise (resolve, reject) ->
       setTimeout ->
@@ -25,13 +26,9 @@ delay_promise = (f) ->
 
 sum = (a, b) -> a + b
 
+binary_apply = (a, b, f) -> f a, b
+
 describe 'Promisebacker', ->
-  nodebacks =
-    delayed_sum: delay_callback sum
-
-  promisers =
-    delayed_sum: delay_promise sum
-
   tests =
     delayed_sum: (wrapped, done) ->
       wrapped 'alas ', 'poor yorick'
@@ -49,7 +46,17 @@ describe 'Promisebacker', ->
         .catch done
 
   it 'should wrap nodebacks', (done) ->
-    tests.delayed_sum (promisebacker nodebacks.delayed_sum), done
+    tests.delayed_sum (promisebacker delay_as_callback sum), done
 
   it 'should wrap promises', (done) ->
-    tests.delayed_sum (promisebacker promisers.delayed_sum), done
+    tests.delayed_sum (promisebacker delay_as_promise sum), done
+
+  describe '.toPromise', ->
+    it 'should handle functions as last arguments', (done) ->
+      wrapped = promisebacker.toPromise delay_as_promise binary_apply
+      wrapped 'alas ', 'poor yorick', sum
+        .then (result) ->
+          expect result
+            .to.equal 'alas poor yorick'
+          done()
+        .catch done

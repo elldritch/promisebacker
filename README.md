@@ -1,6 +1,8 @@
 # Promisebacker
 Wraps an asynchronous function that either takes a callback or returns a promise, and allows it to do both.
 
+**Note:** Promisebacker is still under development and not yet ready for production systems. Releases are stable but the API is subject to rapidly change.
+
 ## Installation
 `npm install promisebacker`
 
@@ -17,8 +19,8 @@ var takes_callback = function(arg1, arg2, callback) {
   setTimeout(function() {
     if (error){
       return callback('uh oh!');
-    } 
-    callback(null, 'hello world');
+    }
+    callback(null, 'hello world!');
   }, 3000);
 };
 
@@ -32,7 +34,7 @@ var returns_promise = function(arg1, arg2) {
       if (error) {
         return reject('uh oh!');
       }
-      resolve('hello world');
+      resolve('hello world!');
     }, 3000);
   });
 };
@@ -67,7 +69,7 @@ wrapped_promise('alas', 'poor yorick', function(err, result) {
 ```
 
 ## Usage Notes
-`Promisebacker(Function target [, Object options])` assumes that you're trying to use a callback if the last argument passed is a `Function` of arity at least 2. If you want to force Promisebacker to return promises, use `Promisebacker.toPromise` instead.
+`Promisebacker(Function target)` assumes that you're trying to use a callback if the last argument passed is a `Function` of arity at least 2. If you want to force it to return promises, use `Promisebacker.toPromise` instead.
 
 ## API Reference
 We define a function to take a _node-style callback_ (a _nodeback_) if it accepts a `Function` of arity at least 2 as its last argument and invokes that function whenever it finishes running. When invoking its callback, it must pass an error value as its first argument which must be truthy if and only if an error has occurred.
@@ -102,11 +104,9 @@ another([1, 2, 3], function(err, a, b, c) {
 ```
 
 ##### `Promisebacker.toPromise(Function target [, Object options])` -> `Function`
-Wraps `target` as per `Promisebacker(Function target [, Object options])`, but will always return a `Promise` even if the last argument is a `Function` of arity at least 2.
+Same as above, but will always return a `Promise` even if the last argument is a `Function` of arity at least 2.
 
-##### `Promisebacker.toCallback(Function target [, Object options])` -> `Function`
-Wraps `target` as per `Promisebacker(Function target [, Object options])`, but will always attempt to invoke a nodeback even if the last argument is not a `Function` of arity at least 2.
-
+<!--
 ##### `Promisebacker.all(Object target [, Object options])` -> `Object`
 Wraps all methods of `target` by going through the object's properties and creating an async equivalent of each function on the object and its prototype chain. The promisified method name will be the original method name suffixed with "Async".
 
@@ -131,3 +131,4 @@ Promise.promisifyAll(..., {
 
 ###### Option: `promisifier`
 Define a custom promisifier, so you could promisifyAll e.g. the chrome APIs used in Chrome extensions. See the `bluebird` documentation for [promisifyAll](https://github.com/petkaantonov/bluebird/blob/master/API.md#promisepromisifyallobject-target--object-options---object) for details.
+-->

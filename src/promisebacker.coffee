@@ -11,8 +11,14 @@ Promiseback = (target, {scope, spread}={}) ->
       Promiseback.execute target, (args.concat [last]), scope
 
 
+# Does not detect call method, and instead assumes a promise should be returned.
+Promiseback.toPromise = (target, {scope, spread}={}) ->
+  (args...) ->
+    Promiseback.execute target, args, scope
+
+
 # Execute a function that either takes nodebacks or returns Promises, and return a Promise.
-# Function target -> Promise | Function<..., Function callback<err, result>> target, Array arguments, Object scope | undefined -> Promise result
+# Function target -> Promise | Function<..., Function callback<err, ...>> target, Array arguments, Object scope | undefined -> Promise result
 Promiseback.execute = (target, args, scope) ->
   new Promise (resolve, reject) ->
     # Append a callback in case it takes callbacks
